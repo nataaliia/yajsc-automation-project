@@ -1,0 +1,23 @@
+{
+  "name": "yajsc-automation-project",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nataaliia/yajsc-automation-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nataaliia/yajsc-automation-project/issues"
+  },
+  "homepage": "https://github.com/nataaliia/yajsc-automation-project#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.1.0"
+  }
+}
