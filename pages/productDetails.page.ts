@@ -1,0 +1,12 @@
+import { Locator } from "@playwright/test";
+import { BasePage } from "./base.page";
+
+export class productDetailsPage extends BasePage{
+    readonly productName:Locator = this.page.getByTestId('product-name');
+    readonly productPrice:Locator = this.page.getByTestId('unit-price');
+    readonly addToCartButton:Locator = this.page.getByTestId('add-to-cart');
+    readonly addToFavoritesButton:Locator = this.page.getByTestId('add-to-favorites');
+
+
+
+}
