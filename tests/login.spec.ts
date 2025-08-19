@@ -7,7 +7,7 @@ test('login', async ({ page }) => {
 
   await app.login.open('/auth/login');
 
-  await app.login.loginAs(baseConfig.USER_EMAIL,baseConfig.USER_PASSWORD);
+  await app.login.loginAs(baseConfig.USER_EMAIL, baseConfig.USER_PASSWORD);
 
   await expect(page).toHaveURL(/\/account$/);
 
