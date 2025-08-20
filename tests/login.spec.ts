@@ -1,19 +1,17 @@
 import { test, expect } from '@playwright/test';
-
-const user={
-  standardUser:{
-    email:'customer@practicesoftwaretesting.com',
-    password:'welcome01',
-  }
-}
+import { baseConfig } from '../config/baseConfig';
+import { ApplicationPage } from '../pages/app.page';
 
 test('login', async ({ page }) => {
-  await page.goto('/auth/login');
-  await page.getByTestId('email').fill(user.standardUser.email);
-  await page.getByTestId('password').fill(user.standardUser.password);
-  await page.getByTestId('login-submit').click();
+  const app = new ApplicationPage(page);
+
+  await app.login.open('/auth/login');
+
+  await app.login.loginAs(baseConfig.USER_EMAIL, baseConfig.USER_PASSWORD);
 
   await expect(page).toHaveURL(/\/account$/);
-  await expect(page.getByTestId('page-title')).toHaveText('My account');
-  await expect(page.getByTestId('nav-menu')).toHaveText('Jane Doe');
+
+  await expect(app.account.pageTitle).toHaveText('My account');
+
+  await expect(app.account.header.navMenu).toHaveText(baseConfig.USER_NAME);
 });
