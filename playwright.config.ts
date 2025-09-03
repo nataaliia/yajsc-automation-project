@@ -25,29 +25,22 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL:'https://practicesoftwaretesting.com',
+    baseURL: 'https://practicesoftwaretesting.com',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on',
     headless: false,
-    testIdAttribute:'data-test',
+    testIdAttribute: 'data-test',
   },
 
   /* Configure projects for major browsers */
   projects: [
+    { name: 'auth', testMatch: /.*\.auth\.login\.spec\.ts/ },
+
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      dependencies: ['auth'],
     },
 
     /* Test against mobile viewports. */

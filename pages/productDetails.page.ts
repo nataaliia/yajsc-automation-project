@@ -6,4 +6,5 @@ export class productDetailsPage extends BasePage {
   readonly productPrice: Locator = this.page.getByTestId('unit-price');
   readonly addToCartButton: Locator = this.page.getByTestId('add-to-cart');
   readonly addToFavoritesButton: Locator = this.page.getByTestId('add-to-favorites');
+  readonly cartAlert: Locator = this.page.locator('div[role="alert"].toast-message');
 }
