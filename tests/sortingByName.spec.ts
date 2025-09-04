@@ -3,26 +3,27 @@ import { ApplicationPage } from '../pages/app.page';
 import { SortOption } from '../enums/sort.enum';
 
 const sortParams = [
-  { label: 'ASC', option: SortOption.NAME_ASC, order: 'asc' },
-  { label: 'DESC', option: SortOption.NAME_DESC, order: 'desc' },
+  { label: 'A-Z', option: SortOption.NAME_ASC, order: 'asc' },
+  { label: 'Z-A', option: SortOption.NAME_DESC, order: 'desc' },
 ];
 
 for (const { label, option, order } of sortParams) {
-  test(`Verify sorting by name ${label}`, async ({ page }) => {
+  test(`Verify user can perform sorting by name ${label}`, async ({ page }) => {
     const app = new ApplicationPage(page);
     await app.home.open('/');
+    const firstProductBefore = await app.home.productsCard.first().innerText();
     await app.home.sortBy(option);
-
+    await expect(app.home.productsCard.first()).not.toHaveText(firstProductBefore, {
+      timeout: 5000,
+    });
     const names = (await app.home.getAllProductNames())
       .map((n) => n.trim().toLowerCase())
       .filter((n) => n);
+    const isSorted = names.every((name, i, arr) => {
+      if (i === 0) return true;
+      return order === 'asc' ? arr[i - 1] <= name : arr[i - 1] >= name;
+    });
 
-    for (let i = 0; i < names.length - 1; i++) {
-      if (order === 'asc') {
-        expect(names[i].localeCompare(names[i + 1])).toBeLessThanOrEqual(0);
-      } else {
-        expect(names[i].localeCompare(names[i + 1])).toBeGreaterThanOrEqual(0);
-      }
-    }
+    expect(isSorted).toBeTruthy();
   });
 }

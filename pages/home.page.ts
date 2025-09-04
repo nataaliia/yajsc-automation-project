@@ -62,6 +62,5 @@ export class HomePage extends BasePage {
     await this.page.waitForResponse(
       (res) => res.url().includes('/products') && res.status() === 200,
     );
-    await this.page.waitForTimeout(500);
   }
 }

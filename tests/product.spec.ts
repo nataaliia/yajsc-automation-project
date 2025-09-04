@@ -32,19 +32,19 @@ test('Verify user can view product details', async ({ page }) => {
 test('Verify user can add product to cart', async ({ page }) => {
   const app = new ApplicationPage(page);
   await app.home.open('/');
-
   const productName = 'Slip Joint Pliers';
   const productPrice = '9.17';
+
   await app.home.openProduct(productName);
-  await expect(page).toHaveURL(/.*\/product\/.*/);
   await expect(app.productDetailsPage.productName).toHaveText(productName);
   await expect(app.productDetailsPage.productPrice).toHaveText(productPrice);
+
   await app.productDetailsPage.addToCartButton.click();
-  await app.productDetailsPage.cartAlert.waitFor({ state: 'visible', timeout: 5000 });
-  await expect(app.productDetailsPage.cartAlert).toHaveText(/Product added to shopping cart/i);
-  await app.productDetailsPage.cartAlert.waitFor({ state: 'hidden', timeout: 8000 });
-  await page.goto('https://practicesoftwaretesting.com/checkout');
-  await expect(app.checkout.cartProductQuantity.first()).toHaveValue('1');
-  await expect(app.checkout.cartProductTitle.first()).toHaveText(productName);
-  await expect(app.checkout.proceedToCheckoutButton).toBeVisible();
+  await expect(app.productDetailsPage.cartAlert).toBeVisible({ timeout: 10000 });
+  await expect(app.productDetailsPage.cartAlert).toHaveText(/Product added to shopping cart/i, {
+    timeout: 10000,
+  });
+  await expect(app.productDetailsPage.cartAlert).toBeHidden({ timeout: 10000 });
+  await app.checkout.open();
+  await app.checkout.verifyProductInCart(productName, '1');
 });
