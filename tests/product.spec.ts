@@ -45,6 +45,6 @@ test('Verify user can add product to cart', async ({ page }) => {
     timeout: 10000,
   });
   await expect(app.productDetailsPage.cartAlert).toBeHidden({ timeout: 10000 });
-  await app.checkout.open();
+  await app.checkout.goToCheckout();
   await app.checkout.verifyProductInCart(productName, '1');
 });
