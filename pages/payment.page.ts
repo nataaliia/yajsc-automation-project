@@ -10,12 +10,6 @@ export class PaymentPage extends BasePage {
   readonly confirmButton: Locator = this.page.getByTestId('finish');
   readonly successMessage: Locator = this.page.getByTestId('payment-success-message');
 
-  readonly defaultCardData = {
-    number: '1111-1111-1111-1111',
-    cvv: '111',
-    cardHolder: 'Test User',
-  };
-
   async selectCreditCard(): Promise<void> {
     await this.paymentMethodSelect.selectOption('credit-card');
   }

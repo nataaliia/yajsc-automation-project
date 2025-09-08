@@ -2,15 +2,16 @@ import { test as base } from '@playwright/test';
 import path from 'path';
 import { ApplicationPage } from '../pages/app.page';
 import { baseConfig } from '../config/baseConfig';
+import fs from 'fs';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
-export const test = base.extend<{ loggedInApp: ApplicationPage }>({
-  loggedInApp: async ({ browser }, use) => {
+export const test = base.extend<{ app: ApplicationPage }>({
+  app: async ({ browser }, use) => {
     let context;
-    try {
+    if (fs.existsSync(authFile)) {
       context = await browser.newContext({ storageState: authFile });
-    } catch {
+    } else {
       context = await browser.newContext();
       const page = await context.newPage();
       const app = new ApplicationPage(page);

@@ -1,8 +1,8 @@
 import { test } from '../fixtures/loggedInApp.fixture';
 import { expect } from '@playwright/test';
+import { defaultBillingData, defaultCardData } from '../utils/card-data.helper';
 
-test('Checkout first product with payment', async ({ loggedInApp }) => {
-  const app = loggedInApp;
+test('Checkout first product with payment', async ({ app }) => {
   await app.home.open('/');
 
   const product = await app.home.getFirstProductInfo();
@@ -27,9 +27,9 @@ test('Checkout first product with payment', async ({ loggedInApp }) => {
   await app.billing.proceedToCheckoutButton.click();
   await app.billing.proceedStep2Button.click();
 
-  await app.billing.fillMissingFields(app.billing.defaultBillingData);
-  await expect(app.billing.stateInput).toHaveValue(app.billing.defaultBillingData.state);
-  await expect(app.billing.postalCodeInput).toHaveValue(app.billing.defaultBillingData.postalCode);
+  await app.billing.fillMissingFields(defaultBillingData);
+  await expect(app.billing.stateInput).toHaveValue(defaultBillingData.state);
+  await expect(app.billing.postalCodeInput).toHaveValue(defaultBillingData.postalCode);
 
   await app.billing.proceedStep3Button.click();
 
@@ -41,7 +41,7 @@ test('Checkout first product with payment', async ({ loggedInApp }) => {
 
   await app.payment.selectCreditCard();
   await app.payment.fillCardDetails({
-    ...app.payment.defaultCardData,
+    ...defaultCardData,
     expiration: expDateStr,
   });
   await app.payment.confirm();
