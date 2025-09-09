@@ -1,5 +1,4 @@
-import { test } from '../fixtures/loggedInApp.fixture';
-import { expect } from '@playwright/test';
+import { loggedInUser as test, expect } from '../fixtures/loggedInApp.fixture';
 import { defaultBillingData, defaultCardData } from '../utils/card-data.helper';
 
 test('Checkout first product with payment', async ({ app }) => {
