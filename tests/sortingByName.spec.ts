@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { ApplicationPage } from '../pages/app.page';
+import { test, expect } from '../fixtures/app.fixture';
 import { SortOption } from '../enums/sort.enum';
 
 const sortParams = [
@@ -8,8 +7,7 @@ const sortParams = [
 ];
 
 for (const { label, option, order } of sortParams) {
-  test(`Verify user can perform sorting by name ${label}`, async ({ page }) => {
-    const app = new ApplicationPage(page);
+  test(`Verify user can perform sorting by name ${label}`, async ({ app }) => {
     await app.home.open('/');
 
     const firstProductBefore = await app.home.productsCard.first().innerText();

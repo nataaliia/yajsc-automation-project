@@ -1,18 +1,16 @@
-import { test, expect } from '@playwright/test';
-import { ApplicationPage } from '../pages/app.page';
+import { test, expect } from '../fixtures/app.fixture';
 import path from 'path';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 test.use({ storageState: authFile });
 
-test('Verify user can view product details', async ({ page }) => {
-  const app = new ApplicationPage(page);
+test('Verify user can view product details', async ({ app }) => {
   const productTitle = 'Combination Pliers';
   await app.home.open('/');
   await expect(app.home.productsCard).not.toHaveCount(0);
   const productDetails = await app.home.getProductDetails(productTitle);
   await app.home.openProduct(productTitle);
-  await expect(page).toHaveURL(/.*\product\/.*/);
+  await expect(app.page).toHaveURL(/.*\product\/.*/);
   await expect(app.productDetailsPage.productName, 'Product name is not visible').toHaveText(
     productDetails.title,
   );
@@ -29,8 +27,7 @@ test('Verify user can view product details', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('Verify user can add product to cart', async ({ page }) => {
-  const app = new ApplicationPage(page);
+test('Verify user can add product to cart', async ({ app }) => {
   await app.home.open('/');
   const productName = 'Slip Joint Pliers';
   const productPrice = '9.17';

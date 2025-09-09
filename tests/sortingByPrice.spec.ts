@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { ApplicationPage } from '../pages/app.page';
+import { test, expect } from '../fixtures/app.fixture';
 import { SortOption } from '../enums/sort.enum';
 
 const priceSortParams: { label: string; option: SortOption; order: 'asc' | 'desc' }[] = [
@@ -7,9 +6,7 @@ const priceSortParams: { label: string; option: SortOption; order: 'asc' | 'desc
   { label: 'DESC', option: SortOption.PRICE_DESC, order: 'desc' },
 ];
 for (const { label, option, order } of priceSortParams) {
-  test(`Verify products are sorted by price ${label}`, async ({ page }) => {
-    const app = new ApplicationPage(page);
-
+  test(`Verify products are sorted by price ${label}`, async ({ app }) => {
     await app.home.open('/');
 
     const firstPriceBefore = await app.home.productPrice.first().innerText();

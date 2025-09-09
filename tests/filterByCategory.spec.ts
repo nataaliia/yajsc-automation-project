@@ -1,14 +1,9 @@
-import { ApplicationPage } from '../pages/app.page';
-import { HomePage } from '../pages/home.page';
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/app.fixture';
 
-test('Verify displayed products contain Sander in their names', async ({ page }) => {
-  const homePage = new HomePage(page);
-
-  const app = new ApplicationPage(page);
+test('Verify displayed products contain Sander in their names', async ({ app }) => {
   await app.home.open('/');
-  await homePage.filterByProduct('Sander');
-  const productNames = await homePage.getAllProductNames();
+  await app.home.filterByProduct('Sander');
+  const productNames = await app.home.getAllProductNames();
   expect(productNames.every((name) => name.includes('Sander'))).toBeTruthy();
 
   expect(productNames.length).toBeGreaterThan(0);

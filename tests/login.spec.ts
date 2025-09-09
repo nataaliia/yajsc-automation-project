@@ -1,15 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/app.fixture';
 import { baseConfig } from '../config/baseConfig';
-import { ApplicationPage } from '../pages/app.page';
 
-test('login', async ({ page }) => {
-  const app = new ApplicationPage(page);
-
+test('login', async ({ app }) => {
   await app.login.open('/auth/login');
 
   await app.login.loginAs(baseConfig.USER_EMAIL, baseConfig.USER_PASSWORD);
 
-  await expect(page).toHaveURL(/\/account$/);
+  await expect(app.page).toHaveURL(/\/account$/);
 
   await expect(app.account.pageTitle).toHaveText('My account');
 
