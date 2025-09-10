@@ -1,14 +1,15 @@
-import { test } from '@playwright/test';
-import path from 'path';
-import { baseConfig } from '../config/baseConfig';
-import { ApplicationPage } from '../pages/app.page';
+import { loggedInUser as test, expect } from '../fixtures/loggedInApp.fixture';
 
-const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+test(
+  'Verify login via loggedInUser fixture',
+  {
+    tag: '@smoke',
+  },
+  async ({ app, page }) => {
+    await app.home.open('/');
 
-test('Verify login', async ({ page }) => {
-  const app = new ApplicationPage(page);
-
-  await app.login.open('/auth/login');
-  await app.login.loginAs(baseConfig.USER_EMAIL, baseConfig.USER_PASSWORD);
-  await page.context().storageState({ path: authFile });
-});
+    const tokenInLocalStorage = await page.evaluate(() => localStorage.getItem('auth-token'));
+    console.log('Token in localStorage:', tokenInLocalStorage);
+    expect(tokenInLocalStorage).not.toBeNull();
+  },
+);

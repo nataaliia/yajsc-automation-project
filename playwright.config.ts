@@ -1,12 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
+import { baseConfig } from './config/baseConfig';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -22,15 +23,17 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html'], ['dot'], ['json']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: 'https://practicesoftwaretesting.com',
+    baseURL: baseConfig.WEB_URL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
     headless: false,
     testIdAttribute: 'data-test',
+    screenshot: 'only-on-failure',
+    video: 'on-first-retry',
+    trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */

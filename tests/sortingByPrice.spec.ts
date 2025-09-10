@@ -6,14 +6,22 @@ const priceSortParams: { label: string; option: SortOption; order: 'asc' | 'desc
   { label: 'DESC', option: SortOption.PRICE_DESC, order: 'desc' },
 ];
 for (const { label, option, order } of priceSortParams) {
-  test(`Verify products are sorted by price ${label}`, async ({ app }) => {
-    await app.home.open('/');
+  test(
+    `Verify products are sorted by price ${label}`,
+    {
+      tag: '@regression',
+    },
+    async ({ app }) => {
+      await app.home.open('/');
 
-    const firstPriceBefore = await app.home.productPrice.first().innerText();
-    await app.home.sortBy(option);
-    await expect(app.home.productPrice.first()).not.toHaveText(firstPriceBefore, { timeout: 5000 });
+      const firstPriceBefore = await app.home.productPrice.first().innerText();
+      await app.home.sortBy(option);
+      await expect(app.home.productPrice.first()).not.toHaveText(firstPriceBefore, {
+        timeout: 5000,
+      });
 
-    const isSorted = await app.home.getSortedProductPrices(order);
-    expect(isSorted).toBeTruthy();
-  });
+      const isSorted = await app.home.getSortedProductPrices(order);
+      expect(isSorted).toBeTruthy();
+    },
+  );
 }

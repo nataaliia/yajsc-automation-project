@@ -7,17 +7,23 @@ const sortParams = [
 ];
 
 for (const { label, option, order } of sortParams) {
-  test(`Verify user can perform sorting by name ${label}`, async ({ app }) => {
-    await app.home.open('/');
+  test(
+    `Verify user can perform sorting by name ${label}`,
+    {
+      tag: '@regression',
+    },
+    async ({ app }) => {
+      await app.home.open('/');
 
-    const firstProductBefore = await app.home.productsCard.first().innerText();
-    await app.home.sortBy(option);
+      const firstProductBefore = await app.home.productsCard.first().innerText();
+      await app.home.sortBy(option);
 
-    await expect(app.home.productsCard.first()).not.toHaveText(firstProductBefore, {
-      timeout: 5000,
-    });
+      await expect(app.home.productsCard.first()).not.toHaveText(firstProductBefore, {
+        timeout: 5000,
+      });
 
-    const isSorted = await app.home.getSortedProductNames(order);
-    expect(isSorted).toBeTruthy();
-  });
+      const isSorted = await app.home.getSortedProductNames(order);
+      expect(isSorted).toBeTruthy();
+    },
+  );
 }
