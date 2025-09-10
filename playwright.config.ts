@@ -29,7 +29,7 @@ export default defineConfig({
     baseURL: baseConfig.WEB_URL,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    headless: false,
+    headless: true,
     testIdAttribute: 'data-test',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
