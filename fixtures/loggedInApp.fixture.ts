@@ -21,10 +21,8 @@ const loggedInUser = test.extend<{ app: ApplicationPage }>({
       password: baseConfig.USER_PASSWORD,
     };
 
-    const { email: userEmail, password: userPassword } = loginData;
-
     const response = await request.post(`${baseConfig.API_URL}/users/login`, {
-      data: { email: userEmail, password: userPassword },
+      data: loginData,
     });
 
     expect(response.ok()).toBeTruthy();
