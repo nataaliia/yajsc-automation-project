@@ -1,8 +1,4 @@
-import { test, expect } from '../fixtures/app.fixture';
-import path from 'path';
-
-const authFile = path.join(__dirname, '../playwright/.auth/user.json');
-test.use({ storageState: authFile });
+import { test, expect } from '../fixtures/loggedInApp.fixture';
 
 test('Verify user can view product details', { tag: '@smoke' }, async ({ app }) => {
   await test.step('Open homepage and check products', async () => {

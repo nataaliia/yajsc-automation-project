@@ -9,8 +9,8 @@ test(
     await app.home.open('/');
     await app.home.filterByProduct('Sander');
     const productNames = await app.home.getAllProductNames();
-    expect(productNames.every((name) => name.includes('Sander'))).toBeTruthy();
-
     expect(productNames.length).toBeGreaterThan(0);
+
+    expect(productNames.every((name) => name.includes('Sander'))).toBeTruthy();
   },
 );

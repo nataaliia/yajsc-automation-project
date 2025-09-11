@@ -1,3 +1,4 @@
+import { Locator } from '@playwright/test';
 import { loggedInUser as test, expect } from '../fixtures/loggedInApp.fixture';
 import { defaultBillingData, defaultCardData } from '../utils/card-data.helper';
 
@@ -30,12 +31,24 @@ test(
       await app.checkout.verifyTotalPrice(productPrice);
       await app.checkout.verifyProductInCart(product.name, '1');
     });
+    const fillAngularInput = async (locator: Locator, value: string) => {
+      await locator.fill(value);
+      await locator.evaluate((el: HTMLInputElement, val) => {
+        el.value = val;
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+        el.dispatchEvent(new Event('blur', { bubbles: true }));
+      }, value);
+    };
 
     await test.step('Billing information', async () => {
       await app.billing.proceedToCheckoutButton.click();
       await app.billing.proceedStep2Button.click();
-
-      await app.billing.fillMissingFields(defaultBillingData);
+      await fillAngularInput(app.billing.streetInput, defaultBillingData.street);
+      await fillAngularInput(app.billing.cityInput, defaultBillingData.city);
+      await fillAngularInput(app.billing.stateInput, defaultBillingData.state);
+      await fillAngularInput(app.billing.countryInput, defaultBillingData.country);
+      await fillAngularInput(app.billing.postalCodeInput, defaultBillingData.postalCode);
       await expect(app.billing.stateInput).toHaveValue(defaultBillingData.state);
       await expect(app.billing.postalCodeInput).toHaveValue(defaultBillingData.postalCode);
 
