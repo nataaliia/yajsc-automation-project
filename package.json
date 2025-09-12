@@ -4,9 +4,9 @@
   "description": "test",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test",
-    "lint": "npx eslint ."
-  },
+  "test": "node -r dotenv/config ./node_modules/.bin/playwright test",
+  "lint": "npx eslint ."
+}, 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nataaliia/yajsc-automation-project.git"

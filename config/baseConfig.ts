@@ -1,16 +1,10 @@
-import { config as dotenvConfig } from 'dotenv';
-import { join } from 'path';
-
-dotenvConfig({ path: join(process.cwd(), '.env') });
-
 export const baseConfig: IBaseConfig = {
-  WEB_URL: process.env.WEB_URL!,
+  WEB_URL: process.env.WEB_URL ?? 'https://practicesoftwaretesting.com',
   API_URL: process.env.API_URL!,
-  USER_EMAIL: process.env.USER_EMAIL!,
+  USER_EMAIL: process.env.USER_EMAIL ?? 'customer@practicesoftwaretesting.com',
   USER_PASSWORD: process.env.USER_PASSWORD!,
-  USER_NAME: process.env.USER_NAME!,
+  USER_NAME: process.env.USER_NAME ?? 'Jane Doe',
 };
-
 interface IBaseConfig {
   WEB_URL: string;
   API_URL: string;
