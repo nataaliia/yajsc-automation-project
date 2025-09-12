@@ -6,10 +6,14 @@ test(
     tag: '@smoke',
   },
   async ({ app, page }) => {
-    await app.home.open('/');
+    await test.step('Open homepage', async () => {
+      await app.home.open('/');
+    });
 
-    const tokenInLocalStorage = await page.evaluate(() => localStorage.getItem('auth-token'));
-    console.log('Token in localStorage:', tokenInLocalStorage);
-    expect(tokenInLocalStorage).not.toBeNull();
+    await test.step('Check token in localStorage', async () => {
+      const tokenInLocalStorage = await page.evaluate(() => localStorage.getItem('auth-token'));
+      console.log('Token in localStorage:', tokenInLocalStorage);
+      expect(tokenInLocalStorage).not.toBeNull();
+    });
   },
 );

@@ -13,17 +13,24 @@ for (const { label, option, order } of sortParams) {
       tag: '@regression',
     },
     async ({ app }) => {
-      await app.home.open('/');
-
-      const firstProductBefore = await app.home.productsCard.first().innerText();
-      await app.home.sortBy(option);
-
-      await expect(app.home.productsCard.first()).not.toHaveText(firstProductBefore, {
-        timeout: 5000,
+      await test.step('Open homepage', async () => {
+        await app.home.open('/');
       });
 
-      const isSorted = await app.home.getSortedProductNames(order);
-      expect(isSorted).toBeTruthy();
+      await test.step(`Sort products by ${label} and verify the first product has changed`, async () => {
+        const firstProductBefore = await app.home.productsCard.first().innerText();
+
+        await app.home.sortBy(option);
+
+        await expect(app.home.productsCard.first()).not.toHaveText(firstProductBefore, {
+          timeout: 5000,
+        });
+      });
+
+      await test.step('Verify the full product list is sorted correctly', async () => {
+        const isSorted = await app.home.getSortedProductNames(order);
+        expect(isSorted).toBeTruthy();
+      });
     },
   );
 }

@@ -5,6 +5,7 @@ const priceSortParams: { label: string; option: SortOption; order: 'asc' | 'desc
   { label: 'ASC', option: SortOption.PRICE_ASC, order: 'asc' },
   { label: 'DESC', option: SortOption.PRICE_DESC, order: 'desc' },
 ];
+
 for (const { label, option, order } of priceSortParams) {
   test(
     `Verify products are sorted by price ${label}`,
@@ -12,16 +13,26 @@ for (const { label, option, order } of priceSortParams) {
       tag: '@regression',
     },
     async ({ app }) => {
-      await app.home.open('/');
-
-      const firstPriceBefore = await app.home.productPrice.first().innerText();
-      await app.home.sortBy(option);
-      await expect(app.home.productPrice.first()).not.toHaveText(firstPriceBefore, {
-        timeout: 5000,
+      await test.step('Open homepage', async () => {
+        await app.home.open('/');
       });
 
-      const isSorted = await app.home.getSortedProductPrices(order);
-      expect(isSorted).toBeTruthy();
+      await test.step(`Perform sorting by price ${label}`, async () => {
+        await app.home.sortBy(option);
+      });
+
+      await test.step('Verify first product price changed after sorting', async () => {
+        const firstPriceBefore = await app.home.productPrice.first().innerText();
+        await app.home.sortBy(option);
+        await expect(app.home.productPrice.first()).not.toHaveText(firstPriceBefore, {
+          timeout: 5000,
+        });
+      });
+
+      await test.step('Verify all product prices are sorted correctly', async () => {
+        const isSorted = await app.home.getSortedProductPrices(order);
+        expect(isSorted).toBeTruthy();
+      });
     },
   );
 }

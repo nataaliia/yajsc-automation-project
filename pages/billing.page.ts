@@ -26,12 +26,9 @@ export class BillingPage extends BasePage {
       { locator: this.postalCodeInput, value: data.postalCode },
     ];
     for (const field of fields) {
-      const el = await field.locator.elementHandle();
-      if (el) {
-        const currentValue = await el.evaluate((input: HTMLInputElement) => input.value.trim());
-        if (!currentValue) {
-          await field.locator.fill(field.value);
-        }
+      const currentValue = (await field.locator.inputValue()).trim();
+      if (!currentValue) {
+        await field.locator.fill(field.value);
       }
     }
   }
